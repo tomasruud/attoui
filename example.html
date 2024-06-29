@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Attoui demo</title>
+</head>
+
+<body>
+  <div id="root">Loading...</div>
+
+  <script src="attoui.js"></script>
+  <script>
+    function counter(state, dispatch) {
+      return (
+        f("div",
+          f("p", "Counter is currently ", state.counter),
+          f("button", {onclick: () => dispatch("inc")}, "Increment"),
+          f("button", {onclick: () => dispatch("reset")}, "Reset")))
+    }
+
+    function app(state, dispatch) {
+      return (
+        f("div",
+          f("h1", state.message),
+          f("p", "This demonstrates some basic features"),
+          counter(state, dispatch)))
+    }
+
+    const root = document.getElementById("root")
+
+    const initialState = {
+      message: "Attoui demo",
+      counter: 0,
+    }
+
+    function reduce(state, action, dispatch) {
+      switch (action) {
+        case "inc":
+          state.counter++
+          return state
+
+        case "reset":
+          state.counter = 0
+          return state
+      }
+      return state
+    }
+
+    mount(root, initialState, reduce, app)
+  </script>
+</body>
+
+</html>
